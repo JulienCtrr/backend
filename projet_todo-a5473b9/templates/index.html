@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projet TODO</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet" />
+    <script
+      href="{{ url_for('static', path='/script.js') }}"
+      rel="stylesheet"
+    ></script>
+  </head>
+  <body>
+    <div class="todo-app">
+      <h1>Mes TODOs</h1>
+
+      <form class="todo-input" action="/todos" method="POST">
+        <input
+          type="text"
+          name="content"
+          id="new-todo"
+          placeholder="Que devez-vous faire ?"
+        />
+        <button type="submit">Ajouter</button>
+      </form>
+
+      <div class="filters">
+        <a
+          href="/?filter=all"
+          class="filter-btn {% if not request.query_params.get('filter') %}active{% endif %}"
+        >
+          Tous
+        </a>
+        <a
+          href="/?filter=active"
+          class="filter-btn {% if request.query_params.get('filter') == 'active' %}active{% endif %}"
+        >
+          À faire
+        </a>
+        <a
+          href="/?filter=completed"
+          class="filter-btn {% if request.query_params.get('filter') == 'completed' %}active{% endif %}"
+        >
+          Terminés
+        </a>
+      </div>
+
+      <ul class="todo-list">
+        {% for todo in todos %}
+        <li class="todo-item {% if todo.is_done %}completed{% endif %}">
+          <span class="todo-text">{{ todo.content }}</span>
+          <div class="todo-actions">
+            <form method="POST" action="/todos/{{ todo.id }}">
+              <input
+                type="hidden"
+                name="is_done"
+                value="{{ '0' if todo.is_done else '1' }}"
+              />
+              <button
+                name="action"
+                value="update"
+                type="submit"
+                class="status-btn {% if todo.is_done %}completed{% endif %}"
+              >
+                {% if todo.is_done %} Uncheck {% else %} Check {% endif %}
+              </button>
+              <button
+                name="action"
+                value="delete"
+                type="submit"
+                class="delete-btn"
+              >
+                Supprimer
+              </button>
+            </form>
+          </div>
+        </li>
+        {% else %}
+        <li class="empty-state">Aucun todo pour le moment</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
