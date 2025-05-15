@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu de Mot</title>
+    <script src="script.js" defer></script>
+    <style>
+        .green  {color: green;}
+        .yellow {color: gold;}
+        .grey   {color: grey;}
+      </style>      
+</head>
+<body>
+    <h1>Devine le mot !</h1>
+    <p id="message">Clique sur "Nouvelle Partie" pour commencer.</p>
+    <input type="text" id="guessInput" maxlength="5" placeholder="Entrez un mot de 5 lettres" />
+    <button onclick="envoyerEssai()">Valider</button>
+    <button onclick="demarrerPartie()">Nouvelle Partie</button>
+    <div id="game"></div>
+</body>
+</html>
